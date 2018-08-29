@@ -45,7 +45,7 @@ class EditorContainer extends Component {
                 <center>
                     <h1 className='display-3'>Welcome to Jot Down</h1>
                     <hr />
-                    <p className='lead'>Start adding notes by clicking the {'"'}Add Note{'"'} Button above</p>
+                    <p className='lead'>Start adding notes by clicking the {'"'}New{'"'} Button above</p>
                 </center>
             )
         }

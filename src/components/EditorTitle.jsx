@@ -20,14 +20,6 @@ class EditorTitle extends Component {
     render() {
         return (
             <Input value={this.props.title} style={EditorTitleStyle} bsSize='lg' type="text" maxLength={120} onChange={this.onChange} placeholder='Title cannot be blank...' />
-
-            // <h1>
-            //     <ContentEditable
-            //         contenteditable='plaintext-only'
-            //         html={this.state.value}
-            //         disabled={false}
-            //         onChange={this.onChange} />
-            // </h1>
         )
     }
 }
