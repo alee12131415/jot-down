@@ -12,7 +12,7 @@ const Client = require('pg').Client
 // do not expose
 // figure out pools later
 const dbClient = new Client(
-    process.env.NODE_ENV === 'production' && process.end.DATABASE_URL
+    process.env.NODE_ENV === 'production' && process.env.DATABASE_URL
         ? {
             connectionString: process.env.DATABASE_URL,
             ssl: true
