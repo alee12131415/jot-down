@@ -14,7 +14,7 @@
     "dev:full": "run-p webpack:dev nodemon",
     "dev:back": "nodemon index.js",
     "eslint": "eslint",
-    "postinstall": "run-s clean webpack:prod",
+    "heroku-postbuild": "run-s clean webpack:prod",
     "clean": "rm -rf ./dist"
   },
   "keywords": [],
