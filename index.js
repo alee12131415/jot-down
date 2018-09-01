@@ -5,6 +5,7 @@ const path = require('path')
 async function dbStartup() {
     const db = require('./src/api/database')
     await db.connect()
+    await db.usersTable()
     await db.notesTable()
     return
 }

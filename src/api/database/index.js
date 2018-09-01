@@ -22,6 +22,7 @@ const dbClient = new Client(
 
 // declare constants
 const TABLE_NOTE = 'notes'
+const TABLE_USER = 'users'
 
 const NOTE_ID = 'id'
 const NOTE_USER = 'user_id'
@@ -29,6 +30,9 @@ const NOTE_TITLE = 'title'
 const NOTE_CONTENT = 'content'
 const NOTE_TIME = 'time_saved'
 
+const USER_ID = 'id'
+const USER_NAME = 'name'
+const USER_HASH = 'hash'
 
 /**
  * Connects to database. Async function that waits for completion.
@@ -63,7 +67,11 @@ exports.disconnect = async () => {
 exports.notesTable = async () => {
     // single line to keep style consistency even though it is 3 times the recomended length
     // this query returns nothing
-    await dbClient.query(`create table if not exists ${TABLE_NOTE} (${NOTE_ID} text not null, ${NOTE_USER} text not null, ${NOTE_TITLE} text not null, ${NOTE_CONTENT} text not null, ${NOTE_TIME} int8 not null, primary key (${NOTE_ID}, ${NOTE_USER}))`)
+    await dbClient.query(`create table if not exists ${TABLE_NOTE} (${NOTE_ID} text not null, ${NOTE_USER} text not null, ${NOTE_TITLE} text not null, ${NOTE_CONTENT} text not null, ${NOTE_TIME} int8 not null, unique (${NOTE_ID}, ${NOTE_USER}))`)
+}
+
+exports.usersTable = async () => {
+    await dbClient.query(`create table if not exists ${TABLE_USER} (${USER_ID} text not null, ${USER_NAME} text not null, ${USER_HASH} text not null, primary key (${USER_ID}), unique (${USER_NAME}))`)
 }
 
 //notes CRUD
@@ -209,4 +217,56 @@ exports.deleteNotes = (...notes) => {
     })
 
     return Promise.all(mapped)
+}
+
+//user CRUD
+
+exports.createUser = (id, name, hash) => {
+    return dbClient.query(`insert into ${TABLE_USER} (${USER_ID}, ${USER_NAME}, ${USER_HASH}) values($1, $2, $3)`, [id, name, hash])
+        .then(() => {
+            return {status: true}
+        })
+        .catch(() => {
+            return {satus: false}
+        })
+}
+
+exports.getUser = (id) => {
+    return dbClient.query(`select * from ${TABLE_USER} where ${NOTE_ID}=$1`, [id])
+        .then(res => {
+            return res.rows
+        })
+        .catch(err => {
+            return null
+        })
+}
+
+exports.updateUserName = (id, name) => {
+    return dbClient.query(`update ${TABLE_USER} set ${USER_NAME}=$1 where ${USER_ID}=$2`, [name, id])
+        .then(res => {
+            return {status: true}
+        })
+        .catch(err => {
+            return {status: false}
+        })
+}
+
+exports.updateUserHash = (id, hash) => {
+    return dbClient.query(`update ${TABLE_USER} set ${USER_HASH}=$1 where ${USER_ID}=$2`, [hash, id])
+        .then(res => {
+            return {status: true}
+        })
+        .catch(err => {
+            return {status: false}
+        })
+}
+
+exports.deleteUser = (id) => {
+    return dbClient.query(`delete from ${TABLE_USER} where ${USER_ID}=$1`, [id])
+        .then(res => {
+            return {status: true}
+        })
+        .then(err => {
+            return {status: false}
+        })
 }
