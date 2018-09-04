@@ -227,7 +227,7 @@ exports.createUser = (id, name, hash) => {
             return {status: true}
         })
         .catch(() => {
-            return {satus: false}
+            return {status: false}
         })
 }
 

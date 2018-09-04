@@ -1,7 +1,14 @@
 const argon2 = require('argon2')
+const jwt = require('jsonwebtoken')
 const shortid = require('shortid')
 const db = require('../database')
 
+//
+const key = require('../../../config').jwt_key
+
+/**
+ * Creates a user and returns a token to cookies.
+ */
 async function postUser(req, res) {
     const {name, pass} = req.body
 
@@ -12,8 +19,21 @@ async function postUser(req, res) {
     while (await db.getUser('id').length > 0) {
         id = shortid.generate()
     }
+    const response = await db.createUser(id, name, hash)
 
-    res.json(await db.createUser(id, name, hash))
+    if (response.status) {
+        const token = jwt.sign({aud: id}, key, {
+            algorithm: 'HS256',
+            expiresIn: '1d',
+            issuer: 'jot-down',
+        })
+        res.cookie('auth', token, {'httpOnly': true})
+        res.json(response)
+    }
+    else {
+        res.clearCookie('auth')
+        res.json(response)
+    }
 }
 
 async function putUser(req, res) {
