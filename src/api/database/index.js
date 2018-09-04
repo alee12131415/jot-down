@@ -1,7 +1,7 @@
-//  Database class wrapper
+// Database class wrapper
 // 
-// on dev create your own database.config.js
-// module.exports = {
+// in root config.js
+// exports.database = {
 //     connnetionString: CONNECTION_STRING_HERE,
 //     ssl: true
 // }
@@ -17,7 +17,7 @@ const dbClient = new Client(
             connectionString: process.env.DATABASE_URL,
             ssl: true
         }
-        : require('./database.config')
+        : require('../../../config').database
 )
 
 // declare constants

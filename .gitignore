@@ -130,4 +130,4 @@ $RECYCLE.BIN/
 
 #built files
 /dist
-database.config.js
+config.js
