@@ -231,8 +231,18 @@ exports.createUser = (id, name, hash) => {
         })
 }
 
-exports.getUser = (id) => {
+exports.getUserById = (id) => {
     return dbClient.query(`select * from ${TABLE_USER} where ${NOTE_ID}=$1`, [id])
+        .then(res => {
+            return res.rows
+        })
+        .catch(err => {
+            return null
+        })
+}
+
+exports.getUserByName = (name) => {
+    return dbClient.query(`select * from ${TABLE_USER} where ${USER_NAME}=$1`, [name])
         .then(res => {
             return res.rows
         })

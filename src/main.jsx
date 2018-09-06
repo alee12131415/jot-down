@@ -5,6 +5,6 @@ import {render} from 'react-dom'
 // import 'bootstrap/dist/js/bootstrap.min.js'
 import './style.scss'
 
-import App from './components/App'
+import Main from './components/Main'
 
-render(<App />, document.getElementById('root'))
+render(<Main />, document.getElementById('root'))

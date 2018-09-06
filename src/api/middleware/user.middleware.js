@@ -3,11 +3,10 @@ const jwt = require('jsonwebtoken')
 const shortid = require('shortid')
 const db = require('../database')
 
-//
 const key = require('../../../config').jwt_key
 
 /**
- * Creates a user and returns a token to cookies.
+ * Creates a user and returns token. Client will store in localStorage
  */
 async function postUser(req, res) {
     const {name, pass} = req.body
@@ -27,11 +26,9 @@ async function postUser(req, res) {
             expiresIn: '1d',
             issuer: 'jot-down',
         })
-        res.cookie('auth', token, {'httpOnly': true})
-        res.json(response)
+        res.json({...response, token})
     }
     else {
-        res.clearCookie('auth')
         res.json(response)
     }
 }

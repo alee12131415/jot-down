@@ -17,9 +17,12 @@ app.set('port', app.get('env') === 'production' ? process.env.PORT ? process.env
 
 app.use('/public', express.static('dist'))
 // app.use('/api', require('./src/api/routes')) //opens api endpoints
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
+})
 
 app.use((req, res) => {
-    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
+    res.redirect(302, '/')
 })
 
 //start app

@@ -1,9 +1,5 @@
 import React, {Component} from 'react'
-import {BrowserRouter as Router} from 'react-router-dom'
-import {Provider} from 'react-redux'
 import {Row, Col, Container} from 'reactstrap'
-
-import store from '../redux/store'
 
 import TopBar from './TopBar'
 import NoteList from './NoteList'
@@ -39,24 +35,20 @@ class App extends Component {
 
     render() {
         return (
-            <Provider store={store}>
-                <Router>
-                    <div>
-                        <TopBar toggleModal={this.toggle} />
-                        <Container fluid>
-                            <Row style={AppBodyStyle}>
-                                <Col lg='2' sm='3' xs='4' style={NoteCardColStyle}>
-                                    <NoteList />
-                                </Col>
-                                <Col lg='10' sm='9' xs='8' style={EditorColStyle}>
-                                    <EditorContainer />
-                                </Col>
-                            </Row>
-                        </Container>
-                        <ModalNewNOte isOpen={this.state.modal} toggle={this.toggle} />
-                    </div>
-                </Router>
-            </Provider>
+            <div>
+                <TopBar toggleModal={this.toggle} />
+                <Container fluid>
+                    <Row style={AppBodyStyle}>
+                        <Col lg='2' sm='3' xs='4' style={NoteCardColStyle}>
+                            <NoteList />
+                        </Col>
+                        <Col lg='10' sm='9' xs='8' style={EditorColStyle}>
+                            <EditorContainer />
+                        </Col>
+                    </Row>
+                </Container>
+                <ModalNewNOte isOpen={this.state.modal} toggle={this.toggle} />
+            </div>
         )
     }
 }
