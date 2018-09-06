@@ -37,7 +37,7 @@ class Main extends Component {
         return (
             <Provider store={store}>
                 <Router>
-                    <Page />
+                    <Page updateAuth={this.isAuthenticated} />
                 </Router>
             </Provider>
         )
