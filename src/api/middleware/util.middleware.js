@@ -20,3 +20,11 @@ exports.verifyToken = (req, res, next) => {
     }
     res.status(401).json({error: 'Invalid Token'})
 }
+
+exports.catchError = (err, req, res, next) => {
+    if (err) {
+        res.status(500).send('Internal Server Error')
+    } else {
+        next()
+    }
+}

@@ -34,8 +34,7 @@ async function postUser(req, res) {
 }
 
 async function putUser(req, res) {
-    const id = '' // TODO: placeholder
-    const {type, payload} = req.body
+    const {user: id, type, payload} = req.body
 
     switch(type) {
         case 'pass': {
@@ -56,8 +55,7 @@ async function putUser(req, res) {
 }
 
 async function deleteUser(req, res) {
-    const id = '' // TODO: placeholder
-
+    const {user: id} = req.body
     res.json(await db.deleteUser(id))
 }
 

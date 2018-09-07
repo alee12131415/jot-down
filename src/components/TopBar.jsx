@@ -9,12 +9,12 @@ import db from '../js/database'
 import {logout} from '../js/auth'
 
 const NoteOptionsStyle = {
-    borderRight: '1px solid gray',
-    paddingRight: '10px'
+    borderLeft: '1px solid gray',
+    paddingLeft: '10px'
 }
 
 const ButtonStyle = {
-    marginLeft: '10px'
+    marginRight: '10px'
 }
 
 const IconStyle = {
@@ -60,7 +60,7 @@ class TopBar extends Component {
                         <Save style={IconStyle} />
                         Save
                     </Button>
-                    <Button onClick={this.onClickDelete} style={ButtonStyle}>
+                    <Button onClick={this.onClickDelete}>
                         <Delete style={IconStyle} />
                         Delete
                     </Button>
@@ -69,20 +69,21 @@ class TopBar extends Component {
         }
 
         return (
-            <Navbar color='dark' dark>
+            <Navbar className='d-flex justify-content-between' color='dark' dark>
                 <NavbarBrand href='#'>
                     Jot Down
                 </NavbarBrand>
-                <Nav className='ml-auto'>
-                    {noteOption}
+                <Nav>
                     <Button onClick={this.props.toggleModal} style={ButtonStyle}>
                         <NoteAdd style={IconStyle} />
                         New
                     </Button>
-                    <ButtonDropdown isOpen={this.state.settingsIsOpen} toggle={this.toggleSettings} style={ButtonStyle}>
+                    {noteOption}
+                </Nav>
+                <Nav>
+                    <ButtonDropdown isOpen={this.state.settingsIsOpen} toggle={this.toggleSettings}>
                         <DropdownToggle caret>
                             <Settings style={IconStyle} />
-                            Settings
                         </DropdownToggle>
                         <DropdownMenu right>
                             <DropdownItem onClick={this.onClickLogout}>Logout</DropdownItem>

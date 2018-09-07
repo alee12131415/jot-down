@@ -2,6 +2,8 @@ import axios from 'axios'
 import {isAuthenticated} from '../redux/actions'
 import store from '../redux/store'
 
+// FIXME: Currently does not return anything because axios just a promise, either add async or return the promise
+
 /**
  * Set isAuthenticated state of store
  * @param {boolean} state 
@@ -31,7 +33,7 @@ export const login = (name, pass) => {
         .then(res => {
             window.localStorage.setItem('token', res.data.token)
             setAuthState(true)
-            return res.data.token
+            return true
         })
         .catch(() => {
             setAuthState(false)

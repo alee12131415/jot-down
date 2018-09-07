@@ -67,7 +67,7 @@ exports.disconnect = async () => {
 exports.notesTable = async () => {
     // single line to keep style consistency even though it is 3 times the recomended length
     // this query returns nothing
-    await dbClient.query(`create table if not exists ${TABLE_NOTE} (${NOTE_ID} text not null, ${NOTE_USER} text not null, ${NOTE_TITLE} text not null, ${NOTE_CONTENT} text not null, ${NOTE_TIME} int8 not null, unique (${NOTE_ID}, ${NOTE_USER}))`)
+    await dbClient.query(`create table if not exists ${TABLE_NOTE} (${NOTE_ID} text not null, ${NOTE_USER} text not null references ${TABLE_USER} (${USER_ID}), ${NOTE_TITLE} text not null, ${NOTE_CONTENT} text not null, ${NOTE_TIME} int8 not null, unique (${NOTE_ID}, ${NOTE_USER}))`)
 }
 
 exports.usersTable = async () => {
@@ -127,7 +127,7 @@ exports.createNotes = (...notes) => {
  * @returns {Promise} Object[]|null
  */
 exports.getNote = (id, user) => {
-    return dbClient.query(`select * from ${TABLE_NOTE} where ${NOTE_ID}=$1 and ${NOTE_USER}=$2`, [id, user])
+    return dbClient.query(`select ${NOTE_ID}, ${NOTE_TITLE}, ${NOTE_CONTENT}, ${NOTE_TIME} from ${TABLE_NOTE} where ${NOTE_ID}=$1 and ${NOTE_USER}=$2`, [id, user])
         .then(res => {
             return res.rows
         })
@@ -142,7 +142,7 @@ exports.getNote = (id, user) => {
  * @returns {Promise} Object[]|null
  */
 exports.getUserNotes = (user) => {
-    return dbClient.query(`select * from ${TABLE_NOTE} where ${NOTE_USER}=$1`, [user])
+    return dbClient.query(`select ${NOTE_ID}, ${NOTE_TITLE}, ${NOTE_CONTENT}, ${NOTE_TIME} from ${TABLE_NOTE} where ${NOTE_USER}=$1`, [user])
         .then(res => {
             return res.rows
         })

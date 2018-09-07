@@ -1,10 +1,11 @@
 const router = require('express').Router()
 const bodyparser = require('body-parser')
 const {getNote, postNote, putNote, deleteNote} = require('../middleware/notes.middleware')
+const {verifyToken} = require('../middleware/util.middleware')
 
 const jsonParser = bodyparser.json()
 
-router.use(jsonParser)
+router.use(jsonParser, verifyToken)
 
 router.get('/', getNote)
 router.post('/', postNote)
