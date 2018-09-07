@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Navbar, NavbarBrand, Nav, Button} from 'reactstrap'
-import {NoteAdd, Delete, Save} from '@material-ui/icons'
+import {Navbar, NavbarBrand, Nav, Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap'
+import {NoteAdd, Delete, Save, Settings} from '@material-ui/icons'
 
 import {updateNotes, updateSelectedNote} from '../redux/actions'
 
 import db from '../js/database'
+import {logout} from '../js/auth'
 
 const NoteOptionsStyle = {
     borderRight: '1px solid gray',
@@ -24,6 +25,9 @@ const IconStyle = {
 class TopBar extends Component {
     constructor(props) {
         super(props)
+        this.state = {
+            settingsIsOpen: false
+        }
     }
 
     onClickSave = () => {
@@ -36,6 +40,14 @@ class TopBar extends Component {
         db.deleteNote(this.props.selectedNote)
         this.props.updateNotes(db.getNotes())
         this.props.updateSelectedNote('')
+    }
+
+    onClickLogout = () => {
+        logout()
+    }
+
+    toggleSettings = () => {
+        this.setState({settingsIsOpen: !this.state.settingsIsOpen})
     }
 
     render() {
@@ -67,6 +79,15 @@ class TopBar extends Component {
                         <NoteAdd style={IconStyle} />
                         New
                     </Button>
+                    <ButtonDropdown isOpen={this.state.settingsIsOpen} toggle={this.toggleSettings} style={ButtonStyle}>
+                        <DropdownToggle caret>
+                            <Settings style={IconStyle} />
+                            Settings
+                        </DropdownToggle>
+                        <DropdownMenu right>
+                            <DropdownItem onClick={this.onClickLogout}>Logout</DropdownItem>
+                        </DropdownMenu>
+                    </ButtonDropdown>
                 </Nav>
             </Navbar>
         )

@@ -48,6 +48,17 @@ const isSaved = (state = true, {type}) => {
     }
 }
 
+const isAuthenticated = (state = false, {type}) => {
+    switch (type) {
+        case types.IS_AUTHENTICATED_TRUE:
+            return true
+        case types.IS_AUTHENTICATED_FALSE:
+            return false
+        default:
+            return state
+    }
+}
+
 export default combineReducers ({
     noteInfo: combineReducers({
         title,
@@ -55,5 +66,6 @@ export default combineReducers ({
     }),
     selectedNote,
     notes,
-    isSaved
+    isSaved,
+    isAuthenticated
 })

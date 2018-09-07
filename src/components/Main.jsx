@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
-import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom'
-import {Provider} from 'react-redux'
-import axios from 'axios'
+import {BrowserRouter as Router} from 'react-router-dom'
+import {Provider, connect} from 'react-redux'
 
 import store from '../redux/store'
 
@@ -11,38 +10,34 @@ import Landing from './Landing'
 class Main extends Component {
     constructor() {
         super()
-        this.state = {
-            isAuthenticated: false
-        }
-        this.isAuthenticated()
-    }
-
-    isAuthenticated = () => {
-        axios({
-            method: 'post',
-            url: '/api/auth/check',
-            headers: {Authorization: 'Bearer ' + window.localStorage.getItem('token')}
-        })
-            .then(() => {
-                this.setState({isAuthenticated: true})
-            })
-            .catch(() => {
-                window.localStorage.removeItem('token')
-                this.setState({isAuthenticated: false})
-            })
     }
 
     render() {
-        const Page = this.state.isAuthenticated ? App : Landing
+        const Page = this.props.isAuthenticated ? App : Landing
         return (
-            <Provider store={store}>
-                <Router>
-                    <Page updateAuth={this.isAuthenticated} />
-                </Router>
-            </Provider>
+            <Page />
         )
     }
 }
 
+const mapS2P = state => {
+    return {
+        isAuthenticated: state.isAuthenticated
+    }
+}
 
-export default Main
+const Wrapper = () => {
+    const Page = connect(mapS2P)(Main)
+    return (
+        <Provider store={store}>
+            <Router>
+                <div>
+                    <Page />
+                </div>
+            </Router>
+        </Provider>
+    )
+}
+
+
+export default Wrapper

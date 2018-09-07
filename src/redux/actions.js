@@ -4,7 +4,9 @@ const types = {
     UPDATE_SELECTED_NOTE: 'UPDATE_SELECTED_NOTE',
     UPDATE_NOTES: 'UPDATE_NOTES',
     IS_SAVED_FALSE: 'IS_SAVED_FALSE',
-    IS_SAVED_TRUE: 'IS_SAVED_TRUE'
+    IS_SAVED_TRUE: 'IS_SAVED_TRUE',
+    IS_AUTHENTICATED_FALSE: 'IS_AUTHENTICATED_FALSE',
+    IS_AUTHENTICATED_TRUE: 'IS_AUTHENTICATED_TRUE'
 }
 
 export const updateTitle = (title) => {
@@ -37,6 +39,10 @@ export const updateNotes = (notes) => {
 
 export const isSaved = (isSaved) => {
     return isSaved ? {type: types.IS_SAVED_TRUE} : {type: types.IS_SAVED_FALSE}
+}
+
+export const isAuthenticated = (isAuthenticated) => {
+    return isAuthenticated ? {type: types.IS_AUTHENTICATED_TRUE} : {type: types.IS_AUTHENTICATED_FALSE}
 }
 
 export default types

@@ -1,3 +1,7 @@
+import {verifyToken} from '../js/auth'
+
+const isAuthenticated = verifyToken()
+
 export default {
     noteInfo: {
         title: '',
@@ -5,5 +9,6 @@ export default {
     },
     selectedNote: '',
     notes: [],
-    isSaved: true
+    isSaved: true,
+    isAuthenticated
 }

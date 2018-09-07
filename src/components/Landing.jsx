@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Container, Row, Col, Card, CardBody, CardHeader, CardFooter, Form, FormGroup, Label, Input, Button} from 'reactstrap'
-import axios from 'axios'
+
+import {login} from '../js/auth'
 
 const RowStyle = {
     height: '100vh'
@@ -27,21 +28,7 @@ class Landing extends Component {
 
     handleLogin = (event) => {
         event.preventDefault()
-        axios({
-            method: 'post',
-            url: '/api/auth/login',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: {
-                name: this.state.loginName,
-                pass: this.state.loginPass
-            }
-        })
-            .then((response) => {
-                window.localStorage.setItem('token', response.data.token)
-            })
-        this.props.updateAuth()
+        login(this.state.loginName, this.state.loginPass)
     }
     
     render() {
