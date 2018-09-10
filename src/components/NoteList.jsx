@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
 import {updateSelectedNote, updateNotes} from '../redux/actions'
+import {apiProtected} from '../js/auth'
 
 import NoteCard from './NoteCard'
 
@@ -21,7 +22,15 @@ class NoteList extends Component {
     }
 
     componentDidMount = () => {
+        this.initNotes()
+    }
+
+    initNotes = async () => {
         //do request here and set state here
+        const cloudNotes = await apiProtected('get', '/notes')
+        if (cloudNotes) {
+            db.setNotes(cloudNotes)
+        }
         this.props.updateNotes(db.getNotes())
         this.setState({completeDBCall: true})
     }

@@ -11,7 +11,7 @@ const selectedNoteWrapper = store => next => action => {
     next(action)
     if (action.type === types.UPDATE_SELECTED_NOTE && action.payload !== '') {
         const newNote = db.getNote(store.getState().selectedNote)
-        store.dispatch(updateContent(newNote.text))
+        store.dispatch(updateContent(newNote.content))
         store.dispatch(updateTitle(newNote.title))
     }
 }

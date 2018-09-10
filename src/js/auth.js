@@ -2,8 +2,6 @@ import axios from 'axios'
 import {isAuthenticated} from '../redux/actions'
 import store from '../redux/store'
 
-// FIXME: Currently does not return anything because axios just a promise, either add async or return the promise
-
 /**
  * Set isAuthenticated state of store
  * @param {boolean} state 
@@ -43,6 +41,7 @@ export const login = (name, pass) => {
 
 export const logout = () => {
     window.localStorage.removeItem('token'),
+    window.localStorage.removeItem('notes')
     setAuthState(false)
 }
 
@@ -67,9 +66,10 @@ export const verifyToken = () => {
  * Api call wrapper for protected enpoints
  * @param {string} method get|post|put|delete
  * @param {string} url api endpoint without '/api' ei: '/notes' => '/api/notes'
+ * @returns {Promise} axios promise
  */
 export const apiProtected = (method, url, data) => {
-    axios({
+    return axios({
         method,
         url: '/api' + url,
         headers: {

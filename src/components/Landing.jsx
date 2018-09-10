@@ -35,7 +35,7 @@ class Landing extends Component {
         return (
             <Container className='bg-dark' fluid>
                 <Row style={RowStyle} className='justify-content-center'>
-                    <Col className='align-self-center' xs={3}>
+                    <Col className='align-self-center' xl={3} lg={4} md={6} sm={8} xs={12}>
                         <Card>
                             <Form onSubmit={this.handleLogin}>
                                 <CardHeader>

@@ -42,9 +42,9 @@ class NoteCard extends Component {
 
     onClick = () => {
         this.props.updateSelectedNote(this.props.id)
-        const {title, text} = db.getNote(this.props.id)
+        const {title, content} = db.getNote(this.props.id)
         this.props.updateTitle(title)
-        this.props.updateContent(text)
+        this.props.updateContent(content)
     }
 
     render() {

@@ -3,7 +3,7 @@ import LocalStorage from 'lowdb/adapters/LocalStorage'
 import shortid from 'shortid'
 import moment from 'moment'
 
-const adapter = new LocalStorage('jot.json')
+const adapter = new LocalStorage('notes')
 const db = low(adapter)
 
 db.defaults({notes: []}).write()
@@ -12,7 +12,6 @@ db.defaults({notes: []}).write()
 id: string
 title: string
 text: string
-user: string
 time: long (in milli)
 */
 
@@ -21,16 +20,20 @@ class dbHelper {
         this.db = db
     }
 
-    addNote(title, text, user) {
+    setNotes(notes) {
+        this.db.get('notes').assign(notes).write()
+    }
+
+    addNote(title, content) {
         const id = shortid.generate()
         const time = moment().valueOf()
-        this.db.get('notes').push({id, title, text, user, time}).write()
+        this.db.get('notes').push({id, title, content, time}).write()
         return id
     }
 
-    updateNote(id, title, text, user) {
+    updateNote(id, title, content) {
         const time = moment().valueOf()
-        this.db.get('notes').find({id}).assign({id, title, text, user, time}).write()
+        this.db.get('notes').find({id}).assign({id, title, content, time}).write()
     }
 
     deleteNote(id) {
@@ -42,6 +45,7 @@ class dbHelper {
     }
 
     getNotes() {
+        console.log(this.db.get('notes').value())
         return this.db.get('notes').value()
     }
 }
