@@ -1,13 +1,12 @@
 const router = require('express').Router()
 const bodyparser = require('body-parser')
-const {postUser} = require('../middleware/user.middleware')
+const {deleteUser} = require('../middleware/user.middleware')
 const {verifyToken} = require('../middleware/util.middleware')
 
 const jsonParser = bodyparser.json()
 
-router.use(jsonParser)
+router.use(verifyToken, jsonParser)
 
-router.post('/', postUser)
-router.put('/', verifyToken, (req, res) => {res.send(true)})
+router.delete('/', deleteUser)
 
 module.exports = router

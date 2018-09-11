@@ -45,7 +45,6 @@ class dbHelper {
     }
 
     getNotes() {
-        console.log(this.db.get('notes').value())
         return this.db.get('notes').value()
     }
 }

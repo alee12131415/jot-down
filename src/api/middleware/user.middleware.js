@@ -5,34 +5,6 @@ const db = require('../database')
 
 const key = require('../../../config').jwt_key
 
-/**
- * Creates a user and returns token. Client will store in localStorage
- */
-async function postUser(req, res) {
-    const {name, pass} = req.body
-
-    let id = shortid.generate()
-    let hash = await argon2.hash(pass) // TODO: handle crash when missing fields
-
-    // possible infinite loop, but unlikely
-    while (await db.getUser('id').length > 0) {
-        id = shortid.generate()
-    }
-    const response = await db.createUser(id, name, hash)
-
-    if (response.status) {
-        const token = jwt.sign({aud: id}, key, {
-            algorithm: 'HS256',
-            expiresIn: '1d',
-            issuer: 'jot-down',
-        })
-        res.json({...response, token})
-    }
-    else {
-        res.json(response)
-    }
-}
-
 async function putUser(req, res) {
     const {user: id, type, payload} = req.body
 
@@ -60,7 +32,6 @@ async function deleteUser(req, res) {
 }
 
 module.exports = {
-    postUser,
     putUser,
     deleteUser
 }

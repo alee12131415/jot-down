@@ -27,7 +27,7 @@ async function postNote(req, res, next) {
         } else {
             // possible infinite loop, but unlikely
             id = shortid.generate()
-            while (await db.getNote(id, user).length > 0) {
+            while ((await db.getNote(id, user)).length > 0) {
                 id = shortid.generate()
             }
         }

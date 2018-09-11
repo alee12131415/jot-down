@@ -62,6 +62,28 @@ export const verifyToken = () => {
         })
 }
 
+export const signup = (name, pass) => {
+    axios({
+        method: 'post',
+        url: '/api/auth/signup',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        data: {
+            name,
+            pass
+        }
+    })
+        .then(res => {
+            window.localStorage.setItem('token', res.data.token)
+            setAuthState(true)
+            return false
+        })
+        .catch(err => {
+            return err.data.error
+        })
+}
+
 /**
  * Api call wrapper for protected enpoints
  * @param {string} method get|post|put|delete
