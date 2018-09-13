@@ -97,7 +97,7 @@ exports.createNote = (id, user, title, content, time) => {
 
 /**
  * Insert multiples note(s)
- * @param {...{id: string, user: string, title: string, content: string, time: number}} notes Note information object(s)
+ * @param {Object} notes Note information object(s)
  * @param {string} notes.id Note id
  * @param {string} notes.user User id
  * @param {string} notes.title Note title
@@ -172,7 +172,7 @@ exports.updateNote = (id, user, title, content, time) => {
 
 /**
  * Update multiples note(s) WITHOUT time check
- * @param {...{id: string, user: string, title: string, content: string, time: number}} notes Note information object(s)
+ * @param {Object} notes Note information object(s)
  * @param {string} notes.id Note id
  * @param {string} notes.user User id
  * @param {string} notes.title Note title
@@ -206,7 +206,7 @@ exports.deleteNote = (id, user) => {
 
 /**
  * Deletes multiple note(s)
- * @param  {...notes} notes Note information object(s)
+ * @param  {Object} notes Note information object(s)
  * @param {string} notes.id Note id
  * @param {string} notes.user User id
  * @returns {Promise} Returns Object[]
@@ -217,6 +217,14 @@ exports.deleteNotes = (...notes) => {
     })
 
     return Promise.all(mapped)
+}
+
+exports.convertNotes = (...notes) => {
+    return notes.map(note => {
+        note = Object.assign({}, {id: note[NOTE_ID], user: note[NOTE_USER], title: note[NOTE_TITLE], content: note[NOTE_CONTENT], time: parseInt(note[NOTE_TIME])})
+        Object.keys(note).forEach(key => note[key] === undefined ? delete note[key]: null)
+        return note
+    })
 }
 
 //user CRUD

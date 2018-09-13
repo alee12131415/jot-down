@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {isAuthenticated} from '../redux/actions'
 import store from '../redux/store'
+import db from './database'
 
 /**
  * Set isAuthenticated state of store
@@ -40,8 +41,8 @@ export const login = (name, pass) => {
 }
 
 export const logout = () => {
-    window.localStorage.removeItem('token'),
-    window.localStorage.removeItem('notes')
+    window.localStorage.removeItem('token')
+    db.clearNotes()
     setAuthState(false)
 }
 

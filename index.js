@@ -21,10 +21,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'dist', 'index.html'))
 })
 
-app.use((req, res) => {
-    res.redirect(302, '/')
-})
-
 //start app
 Promise.all([dbStartup()])
     .then(() => {

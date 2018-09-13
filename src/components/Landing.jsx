@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Container, Row, Col, Card, Form, FormGroup, Label, Input, Button, Nav, NavItem, NavLink} from 'reactstrap'
+import {Container, Row, Col, Card, Form, FormGroup, FormText, Label, Input, Button, Nav, NavItem, NavLink} from 'reactstrap'
 
 import {login, signup} from '../js/auth'
 
@@ -43,7 +43,7 @@ class Landing extends Component {
                                 </NavItem>
                             </Nav>
                             <div style={FormContainerStyle}>
-                                <h3>Welcome to Jot Down</h3>
+                                <h4>Welcome to Jot Down</h4>
                                 <LandingForm isLogin={this.state.isLogin} />
                             </div>
                         </Card>
@@ -95,7 +95,6 @@ class LandingForm extends Component {
     render() {
         const Page = this.props.isLogin
             ? <Form onSubmit={this.handleLogin}>
-                <p className='text-muted'>Please Log In</p>
                 <FormGroup>
                     <Label>Name</Label>
                     <Input type='text' onChange={this.handleLoginNameChange} required />
@@ -107,20 +106,19 @@ class LandingForm extends Component {
                 <Button className='float-right'>Login</Button>
             </Form>
             : <Form onSubmit={this.handleSignup}>
-                <p className='text-muted'>Enter Name and Password to Start Using Jot Down</p>
                 <FormGroup>
                     <Label>Name</Label>
                     <Input type='text' onChange={this.handleSignupNameChane} required />
+                    <FormText color='muted'>1 - 24 characters a-zA-Z0-9_ no spaces</FormText>
                 </FormGroup>
                 <FormGroup>
                     <Label>Password</Label>
                     <Input type='password' onChange={this.handleSignupPassChange} required />
+                    <FormText color='muted'>6 - 24 characters a-zA-Z0-9!@#$%^&*()_+-= no spaces</FormText>
                 </FormGroup>
                 <Button className='float-right'>Login</Button>
             </Form>
-        return (
-            Page
-        )
+        return Page
     }
 }
 

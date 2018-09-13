@@ -1,14 +1,10 @@
 const db = require('../database')
 const shortid = require('shortid')
 
-/**
- * TODO: get user from jwt
- * Using JWT, get user and return all notes related to user
- */
 async function getNote(req, res, next) {
     try {
         const {user} = req.body
-        res.json(await db.getUserNotes(user))
+        res.json({notes: db.convertNotes(...(await db.getUserNotes(user)))})
     }
     catch(err) {
         next(err)
@@ -64,9 +60,39 @@ async function deleteNote(req, res, next) {
     }
 }
 
+async function syncNotes(req, res, next) {
+    try {
+        const {notes, user} = req.body
+        const cloudNotesRaw = db.convertNotes(...(await db.getUserNotes(user)))
+        let cloudNotes = {}
+        cloudNotesRaw.forEach(({id, time}) => {
+            cloudNotes[id] = time
+        })
+        const reduced = notes.reduce((accumulator, {id, title, content, time}) => {
+            if (cloudNotes[id] && cloudNotes[id] <= time) {
+                accumulator.push(db.updateNote(id, user, title, content, time))
+            }
+            else {
+                accumulator.push(db.createNote(id, user, title, content, time))
+            }
+            return accumulator
+        }, [])
+        await Promise.all(reduced)
+            .catch(() => {
+                throw new Error()
+            })
+        
+        res.json({notes: db.convertNotes(...(await db.getUserNotes(user)))})
+    }
+    catch(err) {
+        next(err)
+    }
+}
+
 module.exports = {
     getNote,
     postNote,
     putNote,
-    deleteNote
+    deleteNote,
+    syncNotes
 }

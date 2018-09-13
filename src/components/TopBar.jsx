@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Navbar, NavbarBrand, Nav, Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap'
-import {NoteAdd, Delete, Save, Settings} from '@material-ui/icons'
+import {NoteAdd, Delete, Save, Settings, Sync} from '@material-ui/icons'
 
 import {updateNotes, updateSelectedNote} from '../redux/actions'
 
 import db from '../js/database'
-import {logout} from '../js/auth'
+import {logout, apiProtected} from '../js/auth'
 
 const NoteOptionsStyle = {
     borderLeft: '1px solid gray',
@@ -42,12 +42,16 @@ class TopBar extends Component {
         this.props.updateSelectedNote('')
     }
 
-    onClickLogout = () => {
-        logout()
+    onClickSync = async () => {
+        db.setNotes((await apiProtected('post', '/notes/sync', {notes: db.getNotes()})).notes)
     }
 
     toggleSettings = () => {
         this.setState({settingsIsOpen: !this.state.settingsIsOpen})
+    }
+
+    onClickLogout = () => {
+        logout()
     }
 
     render() {
@@ -81,6 +85,9 @@ class TopBar extends Component {
                     {noteOption}
                 </Nav>
                 <Nav>
+                    <Button style={ButtonStyle}>
+                        <Sync onClick={this.onClickSync} />
+                    </Button>
                     <ButtonDropdown isOpen={this.state.settingsIsOpen} toggle={this.toggleSettings}>
                         <DropdownToggle caret>
                             <Settings style={IconStyle} />

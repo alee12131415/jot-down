@@ -11,42 +11,48 @@ db.defaults({notes: []}).write()
 /*
 id: string
 title: string
-text: string
-time: long (in milli)
+content: string
+time: number (in milli)
 */
 
-class dbHelper {
-    constructor(db) {
-        this.db = db
-    }
-
-    setNotes(notes) {
-        this.db.get('notes').assign(notes).write()
-    }
-
-    addNote(title, content) {
-        const id = shortid.generate()
-        const time = moment().valueOf()
-        this.db.get('notes').push({id, title, content, time}).write()
-        return id
-    }
-
-    updateNote(id, title, content) {
-        const time = moment().valueOf()
-        this.db.get('notes').find({id}).assign({id, title, content, time}).write()
-    }
-
-    deleteNote(id) {
-        this.db.get('notes').remove({id}).write()
-    }
-
-    getNote(id) {
-        return this.db.get('notes').find({id}).value()
-    }
-
-    getNotes() {
-        return this.db.get('notes').value()
-    }
+function setNotes(notes) {
+    db.set('notes', notes).write()
 }
 
-export default new dbHelper(db)
+function addNote(title, content) {
+    const id = shortid.generate()
+    const time = moment().valueOf()
+    db.get('notes').push({id, title, content, time}).write()
+    return id
+}
+
+function updateNote(id, title, content) {
+    const time = moment().valueOf()
+    db.get('notes').find({id}).assign({id, title, content, time}).write()
+}
+
+function deleteNote(id) {
+    db.get('notes').remove({id}).write()
+}
+
+function getNote(id) {
+    return db.get('notes').find({id}).value()
+}
+
+function getNotes() {
+    return db.get('notes').value()
+}
+
+function clearNotes() {
+    db.set('notes', []).write()
+}
+
+export default {
+    setNotes,
+    addNote,
+    updateNote,
+    deleteNote,
+    getNote,
+    getNotes,
+    clearNotes
+}

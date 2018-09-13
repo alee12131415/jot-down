@@ -28,8 +28,8 @@ class NoteList extends Component {
     initNotes = async () => {
         //do request here and set state here
         const cloudNotes = await apiProtected('get', '/notes')
-        if (cloudNotes) {
-            db.setNotes(cloudNotes)
+        if (cloudNotes.notes) {
+            db.setNotes(cloudNotes.notes)
         }
         this.props.updateNotes(db.getNotes())
         this.setState({completeDBCall: true})
