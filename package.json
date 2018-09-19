@@ -48,7 +48,6 @@
     "reactstrap": "^6.3.1",
     "redux": "^4.0.0",
     "sass-loader": "^7.1.0",
-    "shortid": "^2.2.13",
     "style-loader": "^0.21.0",
     "webpack": "^4.16.5",
     "webpack-cli": "^2.1.5"
@@ -58,6 +57,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
-    "pg": "^7.4.3"
+    "pg": "^7.4.3",
+    "shortid": "^2.2.13"
   }
 }
