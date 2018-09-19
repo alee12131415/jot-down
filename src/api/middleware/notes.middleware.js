@@ -27,7 +27,13 @@ async function postNote(req, res, next) {
                 id = shortid.generate()
             }
         }
-        res.json(await db.createNote(id, user, title, content, time))
+        const result = await db.createNote(id, user, title, content, time)
+        if (result.status) {
+            res.json({id: result.id})
+        }
+        else {
+            throw new Error()
+        }
     }
     catch(err) {
         next(err)
@@ -40,7 +46,13 @@ async function postNote(req, res, next) {
 async function putNote(req, res, next) {
     try {
         const {id, user, title, content, time} = req.body
-        res.json(await db.updateNote(id, user, title, content, time))
+        const {status} = await db.updateNote(id, user, title, content, time)
+        if (status) {
+            res.json({id})
+        }
+        else {
+            throw new Error()
+        }
     }
     catch(err) {
         next(err)
@@ -53,7 +65,13 @@ async function putNote(req, res, next) {
 async function deleteNote(req, res, next) {
     try {
         const {id, user} = req.body
-        res.json(await db.deleteNote(id, user))
+        const {status} = await db.deleteNote(id, user)
+        if (status) {
+            res.json({id})
+        }
+        else {
+            throw new Error()
+        }
     }
     catch(err) {
         next(err)

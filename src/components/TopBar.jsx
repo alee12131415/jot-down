@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Navbar, NavbarBrand, Nav, Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap'
 import {NoteAdd, Delete, Save, Settings, Sync} from '@material-ui/icons'
+import moment from 'moment'
 
 import {updateNotes, updateSelectedNote} from '../redux/actions'
 
@@ -32,14 +33,30 @@ class TopBar extends Component {
 
     onClickSave = () => {
         const {title, content} = this.props.noteInfo
-        db.updateNote(this.props.selectedNote, title, content, '')
-        this.props.updateNotes(db.getNotes())
+        const id = this.props.selectedNote
+        const time = moment().valueOf()
+        apiProtected('put', '/notes', {id, title, content, time})
+            .then(res => {
+                db.updateNote(this.props.selectedNote, title, content) //time is added by db function FIXME: streamline this so time is consistent
+                this.props.updateNotes(db.getNotes())
+            })
+            .catch(err => {
+                console.error(err)
+            })
+        
     }
 
     onClickDelete = () => {
-        db.deleteNote(this.props.selectedNote)
-        this.props.updateNotes(db.getNotes())
-        this.props.updateSelectedNote('')
+        const id = this.props.selectedNote
+        apiProtected('delete', '/notes', {id})
+            .then(res => {
+                db.deleteNote(this.props.selectedNote)
+                this.props.updateNotes(db.getNotes())
+                this.props.updateSelectedNote('')
+            })
+            .catch(err => {
+                console.error(err)
+            })
     }
 
     onClickSync = async () => {

@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Button} from 'reactstrap'
+import moment from 'moment'
 
 import {updateNotes, updateSelectedNote} from '../redux/actions'
 import db from '../js/database'
+import {apiProtected} from '../js/auth'
 
 class ModalNewNote extends Component {
     //use this.props.toggle to toggle state, Parent component will control this component's state
@@ -25,11 +27,25 @@ class ModalNewNote extends Component {
     }
 
     handleAdd = (event) => {
-        const newNote = db.addNote(this.state.titleValue, '', '')
-        this.props.updateNotes(db.getNotes())
-        this.props.updateSelectedNote(newNote)
-        this.handleToggle()
+        const title = this.state.titleValue
+        const content = ''
+        const time = moment().valueOf()
         event.preventDefault()
+        apiProtected('post', '/notes', {title, content, time})
+            .then(res => {
+                let notes = db.getNotes()
+                notes.push({id: res.id, title, content, time})
+                db.setNotes(notes)
+                this.props.updateNotes(db.getNotes())
+                this.props.updateSelectedNote(res.id)
+            })
+            .catch(err => {
+                console.error(err)
+            })
+            .finally(() =>{
+                this.handleToggle()
+            })
+        // const newNote = db.addNote(this.state.titleValue, '', '')
     }
 
     render() {
