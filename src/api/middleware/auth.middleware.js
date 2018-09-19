@@ -5,6 +5,9 @@ const shortid = require('shortid')
 const db = require('../database')
 const key = require('../../../config').jwt_key
 
+const nameRegex = /^[a-zA-Z0-9_]{1,24}$/
+const passRegex = /^[a-zA-Z0-9!@#$%^&*()_+\-=]{6,24}$/
+
 async function verifyLogin(req, res) {
     const {name, pass} = req.body
 
@@ -29,6 +32,11 @@ async function verifyLogin(req, res) {
 
 async function signup(req, res) {
     const {name, pass} = req.body
+
+    if (!(nameRegex.test(name) && passRegex.test(pass))) {
+        res.status(400).send({error: 'Invalid Name or Password'})
+        return
+    }
 
     if ((await db.getUserByName(name)).length > 0) {
         res.status(400).json({error: 'Name already taken'})

@@ -7,6 +7,6 @@ const jsonParser = bodyparser.json()
 
 router.use(verifyToken, jsonParser)
 
-router.delete('/', deleteUser)
+// router.delete('/', deleteUser)
 
 module.exports = router

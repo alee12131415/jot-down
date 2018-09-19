@@ -15,10 +15,10 @@ const setAuthState = state => {
  * Login user
  * @param {string} name 
  * @param {string} pass
- * @returns {string|boolean} false if failed
+ * @returns {Promise<string|boolean>} false if failed
  */
 export const login = (name, pass) => {
-    axios({
+    return axios({
         method: 'post',
         url: '/api/auth/login',
         headers: {
@@ -64,7 +64,7 @@ export const verifyToken = () => {
 }
 
 export const signup = (name, pass) => {
-    axios({
+    return axios({
         method: 'post',
         url: '/api/auth/signup',
         headers: {
@@ -81,7 +81,7 @@ export const signup = (name, pass) => {
             return false
         })
         .catch(err => {
-            return err.data.error
+            return err.response.data.error
         })
 }
 
