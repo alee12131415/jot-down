@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-const key = require('../../../config').jwt_key
+const key = process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : require('../../../config').jwt_key
 
 exports.verifyToken = (req, res, next) => {
     if (req.headers.authorization) {

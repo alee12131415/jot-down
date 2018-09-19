@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const shortid = require('shortid')
 
 const db = require('../database')
-const key = require('../../../config').jwt_key
+const key = process.env.NODE_ENV === 'production' ? process.env.JWT_SECRET : require('../../../config').jwt_key
 
 const nameRegex = /^[a-zA-Z0-9_]{1,24}$/
 const passRegex = /^[a-zA-Z0-9!@#$%^&*()_+\-=]{6,24}$/

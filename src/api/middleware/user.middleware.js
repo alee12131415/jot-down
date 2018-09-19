@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const shortid = require('shortid')
 const db = require('../database')
 
-const key = require('../../../config').jwt_key
+const key = process.env.NODE_ENV === 'production'? process.env.JWT_SECRET : require('../../../config').jwt_key
 
 async function putUser(req, res) {
     const {user: id, type, payload} = req.body
