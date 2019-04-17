@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, Button} from 'reactstrap'
-import moment from 'moment'
 
 import {updateNotes, updateSelectedNote} from '../redux/actions'
 import db from '../js/database'
@@ -29,7 +28,7 @@ class ModalNewNote extends Component {
     handleAdd = (event) => {
         const title = this.state.titleValue
         const content = ''
-        const time = moment().valueOf()
+        const time = Date.now()
         event.preventDefault()
         apiProtected('post', '/notes', {title, content, time})
             .then(res => {

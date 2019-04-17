@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-// import ContentEditable from 'react-contenteditable'
 import {Input} from 'reactstrap'
 import {updateTitle} from '../redux/actions'
 import {connect} from 'react-redux'

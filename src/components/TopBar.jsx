@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Navbar, NavbarBrand, Nav, Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap'
 import {NoteAdd, Delete, Save, Settings, Sync} from '@material-ui/icons'
-import moment from 'moment'
 
 import {updateNotes, updateSelectedNote} from '../redux/actions'
 
@@ -34,7 +33,7 @@ class TopBar extends Component {
     onClickSave = () => {
         const {title, content} = this.props.noteInfo
         const id = this.props.selectedNote
-        const time = moment().valueOf()
+        const time = Date.now()
         apiProtected('put', '/notes', {id, title, content, time})
             .then(res => {
                 db.updateNote(this.props.selectedNote, title, content) //time is added by db function FIXME: streamline this so time is consistent

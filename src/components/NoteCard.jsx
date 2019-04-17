@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {updateSelectedNote, updateTitle, updateContent} from '../redux/actions'
 import {Card, CardTitle, CardSubtitle, CardBody} from 'reactstrap'
-import moment from 'moment'
+import {format, addWeeks} from 'date-fns'
 
 import db from '../js/database'
 
@@ -29,15 +29,12 @@ class NoteCard extends Component {
 
     getDateTime = () => {
         //if within a week display nameofday and time else month day
-        const lastSavedMoment = moment(this.props.time)
-        const weekinmilli = 6 * 24 * 60 * 60 * 1000
-        if (moment().valueOf() - this.props.time < weekinmilli) {
-            return lastSavedMoment.format('ddd h:mm a')
+        // const weekinmilli = 6 * 24 * 60 * 60 * 1000
+        if (addWeeks(this.props.time, 1).getTime() > Date.now()) {
+            return format(new Date(this.props.time), 'ddd h:mm a')
         } else {
-            return lastSavedMoment.format('MMM Do')
+            return format(new Date(this.props.time), 'MMM Do')
         }
-
-
     }
 
     onClick = () => {

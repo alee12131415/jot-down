@@ -1,7 +1,6 @@
 import low from 'lowdb'
 import LocalStorage from 'lowdb/adapters/LocalStorage'
 import shortid from 'shortid'
-import moment from 'moment'
 
 const adapter = new LocalStorage('notes')
 const db = low(adapter)
@@ -21,13 +20,13 @@ function setNotes(notes) {
 
 function addNote(title, content) {
     const id = shortid.generate()
-    const time = moment().valueOf()
+    const time = Date.now()
     db.get('notes').push({id, title, content, time}).write()
     return id
 }
 
 function updateNote(id, title, content) {
-    const time = moment().valueOf()
+    const time = Date.now()
     db.get('notes').find({id}).assign({id, title, content, time}).write()
 }
 

@@ -131,3 +131,4 @@ $RECYCLE.BIN/
 #built files
 /dist
 config.js
+stats.json

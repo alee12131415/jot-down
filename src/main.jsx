@@ -1,6 +1,6 @@
 import React from 'react'
 import {render} from 'react-dom'
-import 'babel-polyfill' //allows async/await in browser
+import '@babel/polyfill' //allows async/await in browser
 
 import './style.scss'
 
